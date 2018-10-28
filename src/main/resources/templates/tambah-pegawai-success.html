@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Add Success</title>
+	<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+</head>
+
+<body background="bg.jpg" style="font-family:Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav><br>
+	<center>
+	<h1>Sukses!</h1>
+	<p th:text="'Pegawai dengan NIP ' + ${nip} + ' berhasil ditambahkan.'"></p>
+	
+	<br>
+	<a th:href="@{/pegawai/tambah}">Kembali</a>
+	
+</body>
+
+</html>

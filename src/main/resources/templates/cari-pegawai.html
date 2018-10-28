@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+<title>Cari Pegawai</title>
+
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli"
+	rel="stylesheet">
+
+<script type="text/javascript" src="/datatable/jquery-1.12.0.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/datatable/datatables.min.css" />
+<script type="text/javascript" src="/datatable/datatables.min.js"></script>
+
+<style>
+html, body {
+  height: 100%;
+  background-image: url("bg.jpg");
+  font-family: Muli;
+}
+
+.button {
+  width: 100px;
+  height: 45px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 1000;
+  color: white;
+  background-color: #5E758C;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #ACE8EE;
+  box-shadow: 0px 15px 20px rgba(161, 220, 226, 0.4);
+  color: #4C4E4F;
+  transform: translateY(-3px);
+}
+</style>
+</head>
+
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+
+	<br>
+	<center>
+		<h1>Cari Pegawai</h1>
+		<br>
+
+		<table width=500 align="center" cellpadding=5>
+			<form class="form-inline" th:action="@{/pegawai/cari}"
+				th:object="${pegawai}" method="POST">
+
+				<tr>
+					<td>Provinsi</td>
+					<td><select type="text" name="provinsi" id="provinsi">
+							<option th:each="provinsi : ${listProvinsi}"
+								th:value="${provinsi.id}" th:text="${provinsi.nama}"
+								name="provinsi"></option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Nama Instansi</td>
+					<td><select type="text" name="instansi" id="instansi">
+							<option th:each="instansi : ${listInstansi}"
+								th:value="${instansi.id}" th:prov="${instansi.provinsi.id}"
+								th:text="${instansi.nama}" name="instansi"></option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Jabatan</td>
+					<td><select type="text" name="jabatan">
+							<option th:each="jabatan : ${listJabatan}"
+								th:value="${jabatan.id}" th:text="${jabatan.nama}"
+								name="jabatan"></option>
+					</select></td>
+				</tr>
+				<tr align="center">
+					<td colspan=2>
+						<button type="submit" name="cari" class="button">Cari</button>
+					</td>
+				</tr>
+			</form>
+		</table>
+
+		<br> <br>
+
+		<form th:action="@{/pegawai/cari}" th:object="${listPegawai}"
+			method="POST">
+			<table id="datatable" cellpadding="0" cellspacing="0" border="0"
+				class="display datatable">
+
+				<thead>
+					<tr class="dropdown">
+						<td class="first"></td>
+						<td class="second"></td>
+						<td class="third"></td>
+						<td class="fourth"></td>
+						<td class="fifth"></td>
+						<td class="sixth"></td>
+						<td class="seventh"></td>
+						<td class="eight"></td>
+					</tr>
+					<tr>
+						<th class="eight">No.</th>
+						<th class="first">NIP</th>
+						<td class="second"><b>Nama</td>
+						<td class="third"><b>Tempat Lahir</td>
+						<td class="fourth"><b>Tanggal Lahir</td>
+						<td class="fifth"><b>Tahun Masuk</td>
+						<td class="sixth"><b>Nama Instansi</td>
+						<td class="seventh"><b>Jabatan</td>
+					</tr>
+				</thead>
+
+				<tbody id="itemsoutput">
+					<tr th:each="pegawai, iterationStatus : ${listPegawai}">
+						<td th:text="${iterationStatus.count}"></td>
+						<td th:text="${pegawai.nip}"></td>
+						<td th:text="${pegawai.nama}"></td>
+						<td th:text="${pegawai.tempatLahir}"></td>
+						<td th:text="${pegawai.tanggalLahir}"></td>
+						<td th:text="${pegawai.tahunMasuk}"></td>
+						<td th:text="${namaInstansi}"></td>
+						<td th:text="${namaJabatan}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+</body>
+</html>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#datatable').DataTable();
+	});
+</script>
+
+<script>
+	$('#provinsi').on('click', function() {
+		$('#instansi').children('option').each(function() {
+			if ($(this).attr('prov') !== $('#provinsi').val())
+				$(this).attr('disabled', 'disabled').hide();
+			else
+				$(this).removeAttr('disabled')
+		})
+	})
+
+	$('#provinsi').trigger('click')
+</script>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Home</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli|Montserrat:700"
+	rel="stylesheet">
+
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<br>
+
+	<center>
+		<h1 style="font-family: Montserrat;"><span>Sistem Informasi Kepegawaian</span></h1>
+		<marquee width=500 behavior="alternate">
+			<p>Selamat datang di Sistem Informasi Kepegawaian!</p>
+		</marquee>
+	</center>
+
+	<table align="center" cellpadding="10">
+
+		<tr>
+			<td>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header"><b>Lihat Data Pegawai berdasarkan NIP</b></div>
+							<form th:action="@{/pegawai}" method="GET">
+								<div class="card-body">
+									<label for="nip">Masukkan Nomor Induk Pegawai</label> <input
+										type="text" name="nip" class="form-control" />
+									<p></p>
+									<button type="submit" class="button">Lihat</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+		<br>
+
+		<tr>
+			<td>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header"><b>Lihat Detail Jabatan</b></div>
+							<form th:action="@{/jabatan/view(idJabatan=${idJabatan})}"
+								method="GET">
+								<div class="card-body">
+									<label for="idJabatan">Pilih Jabatan</label> <select
+										type="text" name="idJabatan">
+										<option th:each="jabatan : ${listJabatan}"
+											th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+									</select>
+									<p></p>
+									<button type="submit" class="button">Lihat</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+		<br>
+
+		<tr>
+			<td>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header"><b>Lihat Pegawai Tertua Termuda</b></div>
+							<form th:action="@{/pegawai/termuda-tertua}" method="GET">
+								<div class="card-body">
+									<label for="instansi">Pilih Instansi</label> <select
+										name="idInstansi" style="width:423px;">
+										<option th:each="instansi : ${listInstansi}"
+											th:value="${instansi.id}" th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}"></option>
+									</select>
+									<p></p>
+									<button type="submit" class="button">Lihat</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<br>
+
+</body>
+
+</html>

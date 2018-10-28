@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+<title>Update Jabatan</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli"
+	rel="stylesheet">
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+
+	<br>
+	<table align="center" cellpadding="10">
+		<tr>
+			<td>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-header">
+									<h1>
+										<center>Ubah Jabatan
+									</h1>
+								</div>
+								<form th:action="@{'/jabatan/ubah/' + ${jabatan.id}}"
+									th:object="${jabatan}" method="POST">
+									<table width=500 cellpadding="10" style="margin-left:30px;">
+										<br>
+										<tr>
+											<td>Nama:</td>
+											<td><input type="text" class="form-control" id="nama"
+												name="nama" th:field="*{nama}" th:value="${jabatan.nama}">
+											</td>
+										</tr>
+										<tr>
+											<td>Deskripsi:</td>
+											<td><input type="text" class="form-control"
+												id="tempat_lahir" name="tempat_lahir"
+												th:field="*{deskripsi}" th:value="${jabatan.deskripsi}">
+											</td>
+										</tr>
+										<tr>
+											<td>Gaji Pokok:</td>
+											<td><input type="number" class="form-control"
+												id="gajiPokok" name="gajiPokok" th:field="*{gajiPokok}"
+												th:value="${jabatan.gajiPokok}"></td>
+										</tr>
+									</table>
+									<br>
+									<center>
+										<button type="submit" class="button">Simpan</button>
+										<br> <br>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

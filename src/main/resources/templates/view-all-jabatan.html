@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>All Jabatan</title>
+
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+<script type="text/javascript" src="/datatable/jquery-1.12.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/datatable/datatables.min.css" />
+<script type="text/javascript" src="/datatable/datatables.min.js"></script>
+
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<br>
+	<center><h3>Daftar Jabatan</h3></center>
+	<form th:action="@{/jabatan/viewall}" th:object="${listJabatan}" method="POST">
+		<table id="datatable" cellpadding="0" cellspacing="0" border="0" class="display datatable">
+
+			<thead>
+				<tr class="dropdown">
+					<td class="first"></td>
+					<td class="second"></td>
+					<td class="third"></td>
+					<td class="fourth"></td>
+				</tr>
+				<tr>
+					<th class="first">No.</th>
+					<td class="second">Nama</td>
+					<td class="third">Deskripsi</td>
+					<td class="fourth">Gaji Pokok</td>
+				</tr>
+			</thead>
+			
+			<tbody id="itemsoutput">
+				<tr th:each="jabatan, iterationStatus : ${listJabatan}">
+					<td th:text="${iterationStatus.count}"></td>
+					<td th:text="${jabatan.nama}"></td>
+					<td th:text="${jabatan.deskripsi}"></td>
+					<td th:text="${jabatan.gajiPokok}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+
+<style type="text/css">
+<!--
+.dataTables_filter {
+	position: relative;
+	left: -40px;
+}
+-->
+</style>
+<script>
+$(document).ready( function (){
+	$('#datatable').DataTable();
+});
+</script>
+
+</html>

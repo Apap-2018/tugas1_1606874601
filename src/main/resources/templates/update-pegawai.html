@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Ubah Data Pegawai</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+
+
+	<br>
+	<table align="center" cellpadding="10">
+
+		<tr>
+			<td>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-header">
+									<h1>
+										<center>Ubah Data Pegawai
+									</h1>
+								</div>
+								<form th:action="@{'/pegawai/ubah/' + ${pegawai.nip}}"
+									th:object="${pegawai}" method="POST">
+									<table width=500 cellpadding=10 style="margin-left: 20px">
+										<br>
+										<tr>
+											<td>Nama</td>
+											<td><input type="text" class="form-control" id="nama"
+												name="nama" th:field="*{nama}" th:value="${pegawai.nama}">
+											</td>
+										</tr>
+										<tr>
+											<td>Tempat Lahir</td>
+											<td><input type="text" class="form-control"
+												id="tempat_lahir" name="tempat_lahir"
+												th:field="*{tempatLahir}" th:value="${pegawai.tempatLahir}">
+											</td>
+										</tr>
+										<tr>
+											<td>Tanggal Lahir</td>
+											<td><input type="date" class="form-control"
+												id="tanggal_lahir" name="tanggal_lahir"
+												th:field="*{tanggalLahir}"
+												th:value="${pegawai.tanggalLahir}"></td>
+										</tr>
+										<tr>
+											<td>Tahun Masuk</td>
+											<td><input type="number" min="1900" max="2018"
+												value="2018" name="tahunMasuk" th:field="*{tahunMasuk}"
+												th:value="${pegawai.tahunMasuk}" /></td>
+										</tr>
+										<tr>
+											<td>Provinsi</td>
+											<td><select type="text" name="provinsi" id="provinsi">
+													<option th:each="provinsi : ${listProvinsi}"
+														th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td>Nama Instansi</td>
+											<td><select type="text" name="instansi" id="instansi">
+													<option th:each="instansi : ${listInstansi}"
+														th:value="${instansi.id}"
+														th:prov="${instansi.provinsi.id}"
+														th:text="${instansi.nama}"></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td>Jabatan</td>
+											<td><select type="text" name="jabatan" multiple>
+													<option th:each="jabatan : ${listJabatan}"
+														th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+											</select></td>
+										</tr>
+									</table>
+									<br>
+									<center>
+										<button type="submit" class="button">Simpan</button>
+										<br> <br>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</body>
+
+<script>
+	$('#provinsi').on('click', function() {
+		$('#instansi').children('option').each(function() {
+			if ($(this).attr('prov') !== $('#provinsi').val())
+				$(this).attr('disabled', 'disabled').hide();
+			else
+				$(this).removeAttr('disabled')
+		})
+	})
+
+	$('#provinsi').trigger('click')
+</script>
+
+</html>

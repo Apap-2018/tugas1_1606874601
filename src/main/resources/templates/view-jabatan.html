@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Detail Jabatan</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli"
+	rel="stylesheet">
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<br>
+	<table cellpadding="10" style="margin-left: 50px">
+		<tr>
+			<td><h2 th:text="'Detail Jabatan ' + ${jabatan.nama}"></h2></td>
+		</tr>
+		<tr>
+			<td>
+				<table width=550 cellpadding="10">
+					<tr>
+						<td>Nama</td>
+						<td th:text="${jabatan.getNama()}"></td>
+					</tr>
+					<tr>
+						<td>Deskripsi</td>
+						<td th:text="${jabatan.getDeskripsi()}"></td>
+					</tr>
+					<tr>
+						<td>Gaji Pokok</td>
+						<td th:text="${jabatan.getGajiPokok()}"></td>
+					</tr>
+				</table> 
+				<br>
+				<a th:href="@{/jabatan/ubah/} + ${jabatan.getId()}"><button
+						type="submit" class="button">Ubah</button></a>
+				<a th:href="@{/jabatan/hapus/} + ${jabatan.getId()}"><button
+						type="submit" class="buttondelete">Hapus</button></a>
+
+				<br> <br> <a th:href="@{/}">Kembali</a>
+
+			</td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

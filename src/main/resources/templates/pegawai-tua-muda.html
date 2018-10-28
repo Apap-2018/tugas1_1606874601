@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Detail Pegawai</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<link href="https://fonts.googleapis.com/css?family=Muli"
+	rel="stylesheet">
+</head>
+
+<body background="bg.jpg" style="font-family: Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<br>
+
+	<div class="container-fluid">
+		<table width=1200 cellpadding="0">
+			<td>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header">
+								<h2>
+									<center>Data Pegawai Termuda
+								</h2>
+							</div>
+							<table width=600 cellpadding="15" style="margin-left:30px;">
+								<tbody>
+									<tr>
+										<td scope="row"><b>NIP</td>
+										<td th:value="${pegawaiTua.getNip()}"
+											th:text="${pegawaiTua.getNip()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Nama</td>
+										<td th:value="${pegawaiTua.getNama()}"
+											th:text="${pegawaiTua.getNama()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tempat Lahir</td>
+										<td th:value="${pegawaiTua.getTempatLahir()}"
+											th:text="${pegawaiTua.getTempatLahir()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tanggal Lahir</td>
+										<td th:value="${pegawaiTua.getTanggalLahir()}"
+											th:text="${pegawaiTua.getTanggalLahir()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tahun Masuk</td>
+										<td th:value="${pegawaiTua.getTahunMasuk()}"
+											th:text="${pegawaiTua.getTahunMasuk()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Nama Instansi</td>
+										<td th:text="${instansiTua} + ' - ' + ${provinsiTua}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Jabatan</b></td>
+										<td>
+											<ul th:each="jabatan : ${listJabatanTua}">
+												<li th:text="${jabatan.getNama()}"></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</td>
+
+			<br>
+			<br>
+
+			<td>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header">
+								<h2>
+									<center>Data Pegawai Tertua
+								</h2>
+							</div>
+							<table width=600 cellpadding="15" style="margin-left:30px;">
+								<tbody>
+									<tr>
+										<td scope="row"><b>NIP</td>
+										<td th:value="${pegawaiMuda.getNip()}"
+											th:text="${pegawaiMuda.getNip()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Nama</td>
+										<td th:value="${pegawaiMuda.getNama()}"
+											th:text="${pegawaiMuda.getNama()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tempat Lahir</td>
+										<td th:value="${pegawaiMuda.getTempatLahir()}"
+											th:text="${pegawaiMuda.getTempatLahir()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tanggal Lahir</td>
+										<td th:value="${pegawaiMuda.getTanggalLahir()}"
+											th:text="${pegawaiMuda.getTanggalLahir()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Tahun Masuk</td>
+										<td th:value="${pegawaiMuda.getTahunMasuk()}"
+											th:text="${pegawaiMuda.getTahunMasuk()}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Nama Instansi</td>
+										<td th:text="${instansiMuda} + ' - ' + ${provinsiMuda}"></td>
+									</tr>
+									<tr>
+										<td scope="row"><b>Jabatan</b></td>
+										<td>
+											<ul th:each="jabatan : ${listJabatanMuda}">
+												<li th:text="${jabatan.getNama()}"></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</td>
+		</table>
+		<br><br>
+	</div>
+
+</body>
+
+</html>

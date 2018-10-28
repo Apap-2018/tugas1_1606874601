@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>500 Internal Server Error</title>
+	<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+</head>
+
+<body background="bg.jpg" style="font-family:Muli;">
+	<nav th:replace="fragments/fragment :: navbar"></nav><br>
+	<br>
+	<center>
+	<h2>Halaman tidak dapat diakses</h2>
+	<br>
+	<a th:href="@{/}">Kembali</a>
+</body>
+
+</html>
+
