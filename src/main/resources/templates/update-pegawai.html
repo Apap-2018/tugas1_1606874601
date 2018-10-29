@@ -76,11 +76,14 @@
 											</select></td>
 										</tr>
 										<tr>
-											<td>Jabatan</td>
-											<td><select type="text" name="jabatan" multiple>
-													<option th:each="jabatan : ${listJabatan}"
-														th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
-											</select></td>
+											<td valign="top">Jabatan</td>
+											<td th:object="${jabatanIdList}">
+												<ul th:each="jabatan, iterator: ${listJabatan}">
+													
+													<li ><input name="jabatan" th:text="${jabatan.nama}" style="float: right;" type="checkbox"
+														th:value="${jabatan.id}" /></li>
+												</ul>
+											</td>
 										</tr>
 									</table>
 									<br>

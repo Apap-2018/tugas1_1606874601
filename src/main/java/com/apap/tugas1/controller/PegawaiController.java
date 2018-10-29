@@ -16,6 +16,7 @@ import com.apap.tugas1.service.ProvinsiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,60 +74,39 @@ public class PegawaiController {
 
 	@RequestMapping(value = "/pegawai/tambah", method = RequestMethod.POST)
 	private String addSubmit(@RequestParam("instansi") String idInstansi, @RequestParam("provinsi") String idProvinsi,
-			@RequestParam("jabatan") List<Long> jabatanIdList, @ModelAttribute PegawaiModel pegawai, Model model) {
-
-		InstansiModel instansi = instansiService.findById(Long.parseLong(idInstansi));
-//		List<String> idJabatanList = new ArrayList<String>(Arrays.asList(idJabatan.split(",")));
-		List<JabatanModel> jabatanList = new ArrayList<JabatanModel>();
-
-//		for (String str : idJabatanList) {
-//			JabatanModel jabatan = jabatanService.getJabatanDetailById(Long.parseLong(str));
-//			jabatanList.add(jabatan);
-//		}
-
+			@RequestParam("jabatan") List<String> jabatanIdList, @ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
 		
-		for(long id : jabatanIdList) {
-			JabatanModel jabatan = jabatanService.getJabatanDetailById(id);
+		// instansi
+		InstansiModel instansi = instansiService.findById(Long.parseLong(idInstansi));
+		pegawai.setInstansi(instansi);
+		
+		// jabatan
+		List<JabatanModel> jabatanList = new ArrayList<JabatanModel>();
+		for(String id : jabatanIdList) {
+			JabatanModel jabatan = jabatanService.getJabatanDetailById(Long.parseLong(id));
 			jabatanList.add(jabatan);
 		}
 		pegawai.setJabatanList(jabatanList);
-		
-		
-		
-		pegawai.setInstansi(instansi);
-
-//		List<JabatanModel> jabatanList = new ArrayList<JabatanModel>();
-//		for(JabatanModel jabatan : pegawai.getJabatanList()) {
-//			JabatanModel jab = jabatanService.get
-//			jabatanList.add(jabatan);
-//		}
-//		pegawai.setJabatanList(jabatanList);
-//		
-		// Generate NIP
+	
+		// generate NIP
 		Long kodeInstansi = pegawai.getInstansi().getId();
 		String tahunMasuk = pegawai.getTahunMasuk();
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyy");
 		String tanggalLahir = dateFormat.format(pegawai.getTanggalLahir());
-
 		String nip = kodeInstansi + "" + tanggalLahir + "" + tahunMasuk;
-
+		
 		List<PegawaiModel> pegawaiSama = pegawaiService.findByTahunMasukAndInstansi(tahunMasuk, instansi);
 		int count = 1;
 
-		if (pegawaiSama.isEmpty())
-			nip = nip + "01";
+		if (pegawaiSama.isEmpty()) nip = nip + "01";
 		else {
 			String tanggalLahirPegawai = dateFormat.format(pegawai.getTanggalLahir());
-
 			for (PegawaiModel pegawaiLain : pegawaiSama) {
 				String tanggalLahirPegawaiLain = dateFormat.format(pegawaiLain.getTanggalLahir());
-				if (tanggalLahirPegawai.equals(tanggalLahirPegawaiLain))
-					count++;
+				if (tanggalLahirPegawai.equals(tanggalLahirPegawaiLain)) count++;
 			}
-			if (count < 10)
-				nip = nip + "0" + count;
-			else
-				nip = nip + count;
+			if (count < 10) nip = nip + "0" + count;
+			else nip = nip + count;
 		}
 
 		pegawai.setNip(nip);
@@ -154,18 +134,27 @@ public class PegawaiController {
 
 	@RequestMapping(value = "/pegawai/ubah/{nip}", method = RequestMethod.POST)
 	private String update(@ModelAttribute PegawaiModel newPegawai, @RequestParam("instansi") String idInstansi,
-			@RequestParam("provinsi") String idProvinsi, @RequestParam("jabatan") String idJabatan,
-			@PathVariable(value = "nip") String nip, Model model) {
+			@RequestParam("provinsi") String idProvinsi, @RequestParam("jabatan") List<String> jabatanIdList,
+			@PathVariable(value = "nip") String nip, BindingResult bindingResult, Model model) {
+		
+		// instansi
 		InstansiModel newInstansi = instansiService.findById(Long.parseLong(idInstansi));
-		List<String> newIdJabatanList = new ArrayList<String>(Arrays.asList(idJabatan.split(",")));
-		List<JabatanModel> newJabatanList = new ArrayList<JabatanModel>();
-		for (String str : newIdJabatanList) {
-			JabatanModel jabatan = jabatanService.getJabatanDetailById(Long.parseLong(str));
-			newJabatanList.add(jabatan);
-		}
-
-		newPegawai.setJabatanList(newJabatanList);
 		newPegawai.setInstansi(newInstansi);
+		
+//		List<JabatanModel> newJabatanList = new ArrayList<JabatanModel>();
+//		for (String str : newIdJabatanList) {
+//			JabatanModel jabatan = jabatanService.getJabatanDetailById(Long.parseLong(str));
+//			newJabatanList.add(jabatan);
+//		}
+
+		// jabatan
+				List<JabatanModel> jabatanList = new ArrayList<JabatanModel>();
+				for(String id : jabatanIdList) {
+					JabatanModel jabatan = jabatanService.getJabatanDetailById(Long.parseLong(id));
+					jabatanList.add(jabatan);
+				}
+				newPegawai.setJabatanList(jabatanList);
+		
 
 		// Generate NIP
 		Long kodeInstansi = newPegawai.getInstansi().getId();

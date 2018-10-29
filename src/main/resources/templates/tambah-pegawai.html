@@ -69,11 +69,11 @@
 										</tr>
 										<tr>
 											<td valign="top">Jabatan</td>
-											<td th:object="${jabatanIdList}" name="jabatan">
+											<td th:object="${jabatanIdList}">
 												<ul th:each="jabatan, iterator: ${listJabatan}">
-													<input style="float: right;" type="checkbox"
-														th:value="${jabatan.id}" />
-													<li th:text="${jabatan.nama}"></li>
+													
+													<li ><input name="jabatan" th:text="${jabatan.nama}" style="float: right;" type="checkbox"
+														th:value="${jabatan.id}" /></li>
 												</ul>
 											</td>
 										</tr>
